@@ -68,3 +68,14 @@ class TwitterAPI:
                 print "some error : " + str(e)
                 break
         return tweet_count
+
+    def get_user_statuses(self):
+        return
+
+    def get_following_by_user_id(self, user_id):
+        for user in tweepy.Cursor(self.api.followers, user_id=user_id).items():
+            print user.screen_name
+
+    def get_following_by_user_name(self, user_name):
+        for user in tweepy.Cursor(self.api.followers, screen_name=user_name).items():
+            print user.screen_name
