@@ -12,7 +12,6 @@ class TwitterAPI:
         self.ACCESS_TOKEN_SECRET = keys['access_token_secret']
 
         self.auth = tweepy.AppAuthHandler(self.CONSUMER_KEY, self.CONSUMER_SECRET)
-        self.auth.set_access_token(self.ACCESS_TOKEN, self.ACCESS_TOKEN_SECRET)
 
         self.api = tweepy.API(self.auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
@@ -72,10 +71,13 @@ class TwitterAPI:
     def get_user_statuses(self):
         return
 
-    def get_following_by_user_id(self, user_id):
+    def get_followers_by_user_id(self, user_id):
         for user in tweepy.Cursor(self.api.followers, user_id=user_id).items():
             print user.screen_name
 
-    def get_following_by_user_name(self, user_name):
+    def get_followers_by_user_name(self, user_name):
+        count = 0
         for user in tweepy.Cursor(self.api.followers, screen_name=user_name).items():
             print user.screen_name
+            count += 1
+        return count
