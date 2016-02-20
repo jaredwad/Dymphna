@@ -3,3 +3,5 @@
 
 
 Data/API/keys.py
+
+*.pyc
