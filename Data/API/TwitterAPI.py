@@ -1,6 +1,5 @@
 import tweepy
 import sys
-from Data.Database.Mongo.TwitterMongo import TwitterMongo
 from keys import keys
 
 
@@ -14,8 +13,6 @@ class TwitterAPI:
         self.auth = tweepy.AppAuthHandler(self.CONSUMER_KEY, self.CONSUMER_SECRET)
 
         self.api = tweepy.API(self.auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-
-        self.mongo = TwitterMongo()
 
         if not self.api:
             print "Can't Authenticate"
@@ -38,6 +35,7 @@ class TwitterAPI:
         """
         tweet_count = 0
         print("Downloading max {0} tweets".format(max_tweets))
+        tweets = []
         while tweet_count < max_tweets:
             try:
                 if max_id <= 0:
@@ -58,7 +56,7 @@ class TwitterAPI:
                     print "No more tweets found"
                     break
                 for tweet in new_tweets:
-                    self.mongo.save_status(tweet)
+                    tweets.append(tweet)
                 tweet_count += len(new_tweets)
                 print "Downloaded {0} tweets".format(tweet_count)
                 max_id = new_tweets[-1].id
@@ -66,18 +64,34 @@ class TwitterAPI:
                 # Just exit if any error
                 print "some error : " + str(e)
                 break
-        return tweet_count
+        return tweets
 
-    def get_user_statuses(self):
-        return
+    def get_user_statuses(self, user_id):
+        followers = []
+        count = 0
+        for user in tweepy.Cursor(self.api.user_timeline, user_id=user_id).items():
+            followers.append(user)
+            count += 1
+            if count % 100 == 0:
+                print "Downloaded {0} items".format(count)
+        return followers
 
     def get_followers_by_user_id(self, user_id):
-        for user in tweepy.Cursor(self.api.followers, user_id=user_id).items():
-            print user.screen_name
-
-    def get_followers_by_user_name(self, user_name):
+        followers = []
         count = 0
-        for user in tweepy.Cursor(self.api.followers, screen_name=user_name).items():
-            print user.screen_name
+        for user in tweepy.Cursor(self.api.followers, user_id=user_id).items():
+            followers.append(user)
             count += 1
-        return count
+            if count % 100 == 0:
+                print "Downloaded {0} items".format(count)
+        return followers
+
+    def get_following_by_user_id(self, user_id):
+        following = []
+        count = 0
+        for user in tweepy.Cursor(self.api.friends, user_id=user_id).items():
+            following.append(user)
+            count += 1
+            if count % 100 == 0:
+                print "Downloaded {0} items".format(count)
+        return following
