@@ -66,6 +66,9 @@ class TwitterAPI:
                 break
         return tweets
 
+    def get_user_by_id(self, user_id):
+        return self.api.get_user(user_id)
+
     def get_user_statuses(self, user_id):
         followers = []
         count = 0
