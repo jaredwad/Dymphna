@@ -42,12 +42,17 @@ def test_get_user_statuses(user_id=DEFAULT_ID):
     print "Downloaded {0} Statuses".format(len(statuses))
 
 
+def test_get_user_by_id(user_id=DEFAULT_ID):
+    api = TwitterAPI()
+    start_time = time.time()
+    user = api.get_user_by_id(user_id)
+    print("--- test_get_user_by_id took {0} seconds ---".format(time.time() - start_time))
+    print "Retrieved User: {0}".format(user.screen_name)
+
 def main():
-    #test_search_keyword()
-    #test_get_following()
-    #test_get_followers()
-    test_get_user_statuses()
+    # test_search_keyword()
+    # test_get_following()
+    # test_get_followers()
+    # test_get_user_statuses()
+    test_get_user_by_id()
 
-
-# run tests
-main()
