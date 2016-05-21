@@ -11,13 +11,13 @@ def test_get_statuses(user_id=DEFAULT_ID):
     start_time = time.time()
     statuses = tsu.get_statuses()
     print("--- test_get_user_by_id took {0} seconds ---".format(time.time() - start_time))
-    print "Retrieved {0} Statuses".format(statuses.count())
+    print "Retrieved {0} Statuses".format(len(statuses))
 
 
 def test_get_incoming_neighbors(user_id=DEFAULT_ID):
     tsu = TwitterSocialUnit(user_id)
     start_time = time.time()
-    neighbors = tsu.get_incoming_neighbors()
+    neighbors = tsu.get_incoming_neighbors_ids()
     print("--- test_get_user_by_id took {0} seconds ---".format(time.time() - start_time))
     print "Retrieved {0} Neighbors".format(len(neighbors))
 
@@ -25,7 +25,7 @@ def test_get_incoming_neighbors(user_id=DEFAULT_ID):
 def test_get_outgoing_neighbors(user_id=DEFAULT_ID):
     tsu = TwitterSocialUnit(user_id)
     start_time = time.time()
-    neighbors = tsu.get_outgoing_neighbors()
+    neighbors = tsu.get_outgoing_neighbors_ids()
     print("--- test_get_user_by_id took {0} seconds ---".format(time.time() - start_time))
     print "Retrieved {0} Neighbors".format(len(neighbors))
 
@@ -39,9 +39,9 @@ def test_get_keyword_count_in_statuses(user_id=DEFAULT_ID, keyword="link"):
 
 
 def main():
-    #test_get_statuses()
-    #test_get_incoming_neighbors()
-    #test_get_outgoing_neighbors()
+    test_get_statuses()
+    test_get_incoming_neighbors()
+    test_get_outgoing_neighbors()
     test_get_keyword_count_in_statuses()
 
 main()

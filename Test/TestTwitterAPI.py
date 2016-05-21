@@ -1,9 +1,9 @@
 from Data.API.TwitterAPI import TwitterAPI
 import time
 
-#DEFAULT_ID = 1259825000
+DEFAULT_ID = 1259825000
 #DEFAULT_ID = 216751904
-DEFAULT_ID = 813286
+#DEFAULT_ID = 813286
 DEFAULT_NAME = '@JaredWads'
 DEFAULT_KEYWORD = '#python'
 
@@ -11,7 +11,7 @@ DEFAULT_KEYWORD = '#python'
 def test_search_keyword(keyword=DEFAULT_KEYWORD):
     api = TwitterAPI()
     start_time = time.time()
-    statuses = api.get_statuses_from_keyword(search_query=keyword, max_tweets=1000)
+    statuses = api.get_statuses_from_keyword(search_query=keyword, max_tweets=100)
     print("--- test_search_keyword took {0} seconds ---".format(time.time() - start_time))
     print "Downloaded {0} Statuses".format(len(statuses))
 
@@ -50,9 +50,10 @@ def test_get_user_by_id(user_id=DEFAULT_ID):
     print "Retrieved User: {0}".format(user.screen_name)
 
 def main():
-    # test_search_keyword()
-    # test_get_following()
-    # test_get_followers()
-    # test_get_user_statuses()
+    test_search_keyword()
+    test_get_following()
+    test_get_followers()
+    test_get_user_statuses()
     test_get_user_by_id()
 
+main()

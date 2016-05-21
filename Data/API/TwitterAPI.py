@@ -70,14 +70,15 @@ class TwitterAPI:
         return self.api.get_user(user_id)
 
     def get_user_statuses(self, user_id):
-        followers = []
+        print 'geting statuses from id: {0}'.format(user_id)
+        statuses = []
         count = 0
-        for user in tweepy.Cursor(self.api.user_timeline, user_id=user_id).items():
-            followers.append(user)
+        for status in tweepy.Cursor(self.api.user_timeline, user_id=user_id).items():
+            statuses.append(status)
             count += 1
             if count % 100 == 0:
                 print "Downloaded {0} items".format(count)
-        return followers
+        return statuses
 
     def get_followers_by_user_id(self, user_id):
         followers = []
@@ -97,4 +98,8 @@ class TwitterAPI:
             count += 1
             if count % 100 == 0:
                 print "Downloaded {0} items".format(count)
+        print "Finished"
         return following
+
+    def get_retweets(self, tweet_id):
+        return self.api.retweets(tweet_id)

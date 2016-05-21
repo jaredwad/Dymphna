@@ -1,10 +1,13 @@
 from pymongo import MongoClient
-
+from keys import keys
 
 class TwitterMongo:
     def __init__(self):
-        client = MongoClient('localhost', 27017)
-        db = client.python_twitter
+        #client = MongoClient('localhost', 27017)
+        #db = client.python_twitter
+        client = MongoClient(keys['server'], keys['port'])
+        db = client[keys['db_name']]
+        db.authenticate(keys['user_name'], keys['password'])
 
         self.users = db.Users
         self.statuses = db.Statuses
@@ -49,9 +52,9 @@ class TwitterMongo:
     def set_followers(self, user_id, followers):
         user = self.get_user(user_id)
         for follow in followers:
-            self.users.update({"_id": user["_id"]}, {"$addToSet": {"followers": follow._json['id_str']}})
+            self.users.update({"id_str": user["id_str"]}, {"$addToSet": {"followers": follow._json['id_str']}})
 
     def set_following(self, user_id, following):
         user = self.get_user(user_id)
         for follow in following:
-            self.users.update({"_id": user["_id"]}, {"$addToSet": {"following": follow._json['id_str']}})
+            self.users.update({"id_str": user["id_str"]}, {"$addToSet": {"following": follow._json['id_str']}})

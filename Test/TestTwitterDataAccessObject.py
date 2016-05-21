@@ -21,13 +21,13 @@ def test_get_user_statuses(user_id=DEFAULT_USER_ID):
     start_time = time.time()
     statuses = dao.get_user_statuses(user_id)
     print("--- test_get_user took {0} seconds ---".format(time.time() - start_time))
-    print "Retrieved {0} statuses".format(statuses.count())
+    print "Retrieved {0} statuses".format(len(statuses))
 
 
 def test_get_following(user_id=DEFAULT_USER_ID):
     dao = TwitterDataAccessObject()
     start_time = time.time()
-    following = dao.get_following_by_user_id(user_id)
+    following = dao.get_following_ids_by_user_id(user_id)
     print("--- test_get_user took {0} seconds ---".format(time.time() - start_time))
     print "Retrieved {0} following".format(len(following))
 
@@ -35,13 +35,15 @@ def test_get_following(user_id=DEFAULT_USER_ID):
 def test_get_followers(user_id=DEFAULT_USER_ID):
     dao = TwitterDataAccessObject()
     start_time = time.time()
-    followers = dao.get_followers_by_user_id(user_id)
+    followers = dao.get_followers_ids_by_user_id(user_id)
     print("--- test_get_user took {0} seconds ---".format(time.time() - start_time))
     print "Retrieved {0} following".format(len(followers))
 
 
 def main():
-    # test_get_user()
-    # test_get_user_statuses()
+    test_get_user()
+    test_get_user_statuses()
     test_get_following()
-    # test_get_followers()
+    test_get_followers()
+
+main()

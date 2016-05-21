@@ -6,8 +6,8 @@ class TwitterSocialUnit(SocialUnit):
     def __init__(self, id):
         SocialUnit.__init__(self)
         self.id = id
-        self.incoming_Neighbors = None
-        self.outgoing_Neighbors = None
+        # self.incoming_Neighbors = None
+        # self.outgoing_Neighbors = None
         self.incoming_Neighbors_ids = None
         self.outgoing_Neighbors_ids = None
         self.statuses = None
@@ -16,15 +16,23 @@ class TwitterSocialUnit(SocialUnit):
 
         self.inner_User = self.dao.get_user(id)
 
-    def get_incoming_neighbors(self, force_refresh=False):
-        if force_refresh or self.incoming_Neighbors is None:
-            self.incoming_Neighbors = self.dao.get_followers_by_user_id(self.id)
-        return self.incoming_Neighbors
-
-    def get_outgoing_neighbors(self, force_refresh=False):
-        if force_refresh or self.outgoing_Neighbors is None:
-            self.outgoing_Neighbors = self.dao.get_following_by_user_id(self.id)
-        return self.outgoing_Neighbors
+    # def get_incoming_neighbors(self, force_refresh=False):
+    #     if force_refresh or self.incoming_Neighbors is None:
+    #         ids = self.get_incoming_neighbors_ids(force_refresh)
+    #         self.incoming_Neighbors = []
+    #         for id in ids:
+    #             self.incoming_Neighbors.append(self.dao.get_user(id))
+    #
+    #     return self.incoming_Neighbors
+    #
+    # def get_outgoing_neighbors(self, force_refresh=False):
+    #     if force_refresh or self.outgoing_Neighbors is None:
+    #         ids = self.get_outgoing_neighbors_ids(force_refresh)
+    #         self.outgoing_Neighbors = []
+    #         for id in ids:
+    #             self.outgoing_Neighbors.append(self.dao.get_user(id))
+    #
+    #     return self.outgoing_Neighbors
 
     def get_incoming_neighbors_ids(self, force_refresh=False):
         if force_refresh or self.incoming_Neighbors_ids is None:
